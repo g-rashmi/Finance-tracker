@@ -8,7 +8,7 @@ const TransactionForm: React.FC<TransactionFormProps>  = ({ onAddTransaction }) 
   const [amount, setAmount] = useState(0);
   const [type, setType] = useState('');
 
-  const handleSubmit = (e:any) => {
+  const handleSubmit = (e :React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onAddTransaction({ category, amount, type });
     setCategory('');
