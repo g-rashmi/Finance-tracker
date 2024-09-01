@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Container, TextField, Button, Box, MenuItem, Typography } from '@mui/material';
-
-const TransactionForm = ({ onAddTransaction }) => {
+interface TransactionFormProps {
+  onAddTransaction: (transaction: { category: string; amount: number; type:string  }) => void;
+}
+const TransactionForm: React.FC<TransactionFormProps>  = ({ onAddTransaction }) => {
   const [category, setCategory] = useState('');
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState(0);
   const [type, setType] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e:any) => {
     e.preventDefault();
     onAddTransaction({ category, amount, type });
     setCategory('');
-    setAmount('');
+    setAmount(0);
     setType('');
   };
 
@@ -30,7 +32,7 @@ const TransactionForm = ({ onAddTransaction }) => {
           <TextField
             label="Amount"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={(e) => setAmount(Number(e.target.value))}
             fullWidth
             margin="normal"
             required
@@ -40,7 +42,7 @@ const TransactionForm = ({ onAddTransaction }) => {
           <TextField
             label="Type"
             value={type}
-            onChange={(e) => setType(e.target.value)}
+            onChange={(e) => setType((e.target.value))}
             fullWidth
             margin="normal"
             select

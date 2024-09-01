@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import {
   Container,
   Grid,
@@ -21,18 +21,23 @@ import {
 } from "recharts";
 import TransactionForm from "./Transaction.tsx";
 import Header from "./Header.tsx";
+interface Transaction {
+  category: string;
+  amount: number;
+  type: string;
+}
 
 const Dashboard = () => {
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  const handleAddTransaction = (transaction) => {
+  const handleAddTransaction = (transaction:Transaction) => {
     setTransactions([...transactions, transaction]);
   };
 console.log(transactions);
   // Preparing data for the chart
   const chartData = transactions.map((transaction, index) => ({
     name: `Transaction ${index + 1}`,
-    Amount: parseFloat(transaction.amount),
+    Amount: (transaction.amount),
     Type: transaction.type,
   }));
 console.log(chartData);
@@ -52,8 +57,8 @@ console.log(chartData);
                   {transactions.reduce(
                     (acc, trans) =>
                       trans.type === "income"
-                        ? acc + parseFloat(trans.amount)
-                        : acc - parseFloat(trans.amount),
+                        ? acc + (trans.amount)
+                        : acc -(trans.amount),
                     0
                   )}
                 </Typography>
