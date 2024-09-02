@@ -14,7 +14,7 @@ export default function App() {
           <Route path="/signin" element={<SignIn/>} />
           <Route path="/" element={<Signup/>} />
           <Route path="/dashboard" element={<Dashboard/>} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+      
         </Routes>
   
     </BrowserRouter>
