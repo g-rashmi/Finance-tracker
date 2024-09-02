@@ -36,7 +36,7 @@ const defaultTheme = createTheme();
 export default function Signup() {
 
   const navigate= useNavigate();
-  const handleGoogle = async (e:any) => {
+  const handleGoogle = async (e) => {
     e.preventDefault();  
     try {
       const provider = new GoogleAuthProvider();

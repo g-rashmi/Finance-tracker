@@ -1,5 +1,7 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { auth } from '../firebase';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -13,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Paper } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright () {
   return (
@@ -31,6 +34,18 @@ function Copyright () {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const navigate=useNavigate()
+  const handleGoogle = async (e) => {
+    e.preventDefault();  
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      console.log(result); 
+      navigate('/dashboard');
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -91,7 +106,7 @@ export default function SignIn() {
             >
               Sign In
             </Button>
-            <Paper sx={{display:'flex',textAlign:'center',justifyContent:'center',}}><Button variant='contained' color='success'  fullWidth >Login with Google </Button></Paper>
+            <Paper sx={{display:'flex',textAlign:'center',justifyContent:'center',}}><Button variant='contained' color='success' onClick={handleGoogle}  fullWidth >Login with Google </Button></Paper>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
