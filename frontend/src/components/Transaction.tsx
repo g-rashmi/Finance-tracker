@@ -10,11 +10,13 @@ const TransactionForm: React.FC<TransactionFormProps>  = ({ onAddTransaction }) 
 
   const handleSubmit = (e :React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+   
     onAddTransaction({ category, amount, type });
     setCategory('');
     setAmount(0);
     setType('');
-  };
+  
+}
 
   return (
     <Container maxWidth="sm">

@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState ,useEffect} from "react";
 import {
   Container,
   Grid,
@@ -28,19 +28,31 @@ interface Transaction {
 }
 
 const Dashboard = () => {
+  const [total,settotal] =useState(0);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  const handleAddTransaction = (transaction:Transaction) => {
+  const handleAddTransaction = (transaction: Transaction) => {
+    if(transaction.amount>total&&transaction.type==='expense'){
+      alert("u didn't have enough money") ;
+      return ;
+    }
     setTransactions([...transactions, transaction]);
-  };
-console.log(transactions);
-  // Preparing data for the chart
+  }
+  useEffect(() => {
+    const newTotal = transactions.reduce(
+      (acc, trans) =>
+        trans.type === "income" ? acc + trans.amount : acc - trans.amount,
+      0
+    );
+    settotal(newTotal);
+  }, [transactions]);
   const chartData = transactions.map((transaction, index) => ({
     name: `Transaction ${index + 1}`,
-    Amount: (transaction.amount),
+    Income: transaction.type === "income" ? transaction.amount : 0,
+    Expense: transaction.type === "expense" ? transaction.amount : 0,
     Type: transaction.type,
   }));
-console.log(chartData);
+  console.log(chartData);
   return (
     <>
       <Header />
@@ -54,13 +66,14 @@ console.log(chartData);
                 </Typography>
                 <Typography variant="h4" color="primary" fontWeight="bold">
                   ₹
-                  {transactions.reduce(
+                  {(transactions.reduce(
                     (acc, trans) =>
                       trans.type === "income"
-                        ? acc + (trans.amount)
-                        : acc -(trans.amount),
+                        ? acc + trans.amount
+                        : acc - trans.amount,
                     0
-                  )}
+                  ))} 
+
                 </Typography>
               </Box>
             </Paper>
@@ -98,15 +111,14 @@ console.log(chartData);
                 Transaction Chart
               </Typography>
               <ResponsiveContainer width="100%" height={400}>
-                <BarChart data={chartData}>
+                <BarChart data={chartData} barCategoryGap="3%">
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar
-                    dataKey="Amount"
-                    fill= 'green'/>
+                  <Bar dataKey="Income" fill="green" barSize={30} />
+                  <Bar dataKey="Expense" fill="red" barSize={30} />
                 </BarChart>
               </ResponsiveContainer>
             </Paper>
