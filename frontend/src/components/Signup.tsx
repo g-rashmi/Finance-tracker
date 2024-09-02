@@ -36,8 +36,8 @@ const defaultTheme = createTheme();
 export default function Signup() {
 
   const navigate= useNavigate();
-  const handleGoogle = async () => {
-   
+  const handleGoogle = async (e:React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();  
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
