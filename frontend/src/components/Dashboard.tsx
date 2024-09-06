@@ -1,4 +1,5 @@
 import { useState ,useEffect} from "react";
+import { CSVLink } from 'react-csv';
 import {
   Container,
   Grid,
@@ -8,6 +9,7 @@ import {
   ListItem,
   ListItemText,
   Box,
+  Button,
 } from "@mui/material";
 import {
   BarChart,
@@ -27,10 +29,28 @@ interface Transaction {
   type: string;
 }
 
-const Dashboard = () => {
-  const [total,settotal] =useState(0);
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
+const Dashboard = () => {
+  const [csvData, setCsvData] = useState<string[][]>([])
+  const [total,settotal] =useState(0);
+
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const generate=async ()=>{
+    try{
+      const csvrows=[['Category','Income/Expense','Amount']]; 
+      for(const i of transactions){
+        csvrows.push([i.category,i.type,i.amount.toString()]);
+      }
+      setCsvData(csvrows);    
+    }
+    catch(error){
+      console.error('Error fetching company details:', error); 
+    }
+    }
+    useEffect(() => {
+      generate();
+    }, [transactions]);
+  
   const handleAddTransaction = (transaction: Transaction) => {
     if(transaction.amount>total&&transaction.type==='expense'){
       alert("u didn't have enough money") ;
@@ -84,6 +104,23 @@ const Dashboard = () => {
                 <Typography variant="h6" color="textSecondary" gutterBottom>
                   Recent Transactions
                 </Typography>
+                <Button
+        variant="contained"
+        color="primary"
+        disabled={csvData.length===1}
+        
+        onClick={generate}
+    
+      >
+        <CSVLink
+          data={csvData}
+          filename={"companies.csv"}
+          target="_blank"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+      Export as CSV
+        </CSVLink>
+      </Button>
                 <List>
                   {transactions.map((transaction, index) => (
                     <ListItem key={index}>
