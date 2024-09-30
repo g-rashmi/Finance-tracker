@@ -101,11 +101,11 @@ const Dashboard = () => {
           <Grid item xs={12} md={7}>
             <Paper sx={{ p: 3, backgroundColor: "#f5f5f5", boxShadow: 3 }}>
               <Box>
-                <Typography variant="h6" color="textSecondary" gutterBottom>
+                <Typography variant="h6"  color="textSecondary" gutterBottom>
                   Recent Transactions
                   <Button
         variant="contained"
-        color="primary"
+        color="primary" style={{marginLeft:"10px"}}
         disabled={csvData.length===1}
         
         onClick={generate}
