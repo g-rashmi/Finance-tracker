@@ -103,8 +103,7 @@ const Dashboard = () => {
               <Box>
                 <Typography variant="h6" color="textSecondary" gutterBottom>
                   Recent Transactions
-                </Typography>
-                <Button
+                  <Button
         variant="contained"
         color="primary"
         disabled={csvData.length===1}
@@ -121,6 +120,8 @@ const Dashboard = () => {
       Export as CSV
         </CSVLink>
       </Button>
+                </Typography>
+               
                 <List>
                   {transactions.map((transaction, index) => (
                     <ListItem key={index}>
